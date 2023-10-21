@@ -3,57 +3,73 @@ package de.axone.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "vehicle")
-@Getter
-@Setter
-@Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Vehicle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "vin")
     private String vin;
 
-    @Column
+    @Column(name = "manufacturer")
     private String manufacturer;
 
-    @Column
+    @Column(name = "plateNr")
     private String plateNr;
 
-    @Column
+    // Field used in validation (form4)
+    @Column(name = "type")
+    private String type;
+
+    @Column(name = "mileage")
     private String mileage;
 
-    @Column
+    // Field used in validation (form4)
+    @Column(name = "mecDate")
+    private LocalDate mecDate;
+
+    @Column(name = "chronoManufacturer")
     private String chronoManufacturer;
 
-    @Column
+    @Column(name = "chronoPlateNr")
     private String chronoPlateNr;
 
-    @Column
+    @Column(name = "chronoSerieNr")
     private String chronoSerieNr;
 
-    @Column
+    @Column(name = "chronoHomologation")
     private String chronoHomologation;
 
-    @Column
+    @Column(name = "chronoType")
+    private String chronoType;
+
+    @Column(name = "chronoVmax")
     private String chronoVmax;
 
-    @Column(columnDefinition = "SMALLINT")
-    private Boolean confirmation1;
+    // Field used in validation (form4)
+    @Column(name = "chronoContructionYear")
+    private Integer chronoConstructionYear;
 
-    @Column(columnDefinition = "SMALLINT")
-    private Boolean confirmation2;
-
-    @Column(columnDefinition = "SMALLINT")
-    private Boolean confirmation3;
-
-
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "tachy_order_id")
-    private TachyOrder tachyOrder;
+//    @Column(columnDefinition = "SMALLINT")
+//    private Boolean confirmation1;
+//
+//    @Column(columnDefinition = "SMALLINT")
+//    private Boolean confirmation2;
+//
+//    @Column(columnDefinition = "SMALLINT")
+//    private Boolean confirmation3;
+//
+//
+//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "tachy_order_id")
+//    private TachyOrder tachyOrder;
 }

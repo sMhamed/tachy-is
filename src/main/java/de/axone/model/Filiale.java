@@ -2,34 +2,40 @@ package de.axone.model;
 
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Table (name = "filiale")
-@Getter
-@Setter
+@Table(name = "filiale")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class Filiale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "name")
     private String name;
 
-    @Column
+    @Column(name = "logo")
+    private String logo;
+
+    @Column(name = "identifier")
     private String identifier;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "central_id")
+    private Central central;
+
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "filiale_id")
     private List<User> users;
 
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "filiale_id")
     private List<Customer> customers;
 }

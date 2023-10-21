@@ -1,22 +1,47 @@
 package de.axone.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import de.axone.enums.TireType;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "tire")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Tire {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Verificati
-    //on du vehicule
-    public String emptyVehicle;
-    public String vehicleInGoodMarketCondition;
-    public boolean tireInSameAxle;
+    @Column(name = "tire_type")
+    @Enumerated(EnumType.STRING)
+    private TireType tireType;
 
+    @Column(name = "dimension")
+    private String dimension;
+
+    @Column(name = "brand")
+    private String brand;
+
+    @Column(name = "pressure")
+    private Double pressure;
+
+    @Column(name = "indicator1")
+    private Double indicator1;
+
+    @Column(name = "indicator2")
+    private Double indicator2;
+
+    @Column(name = "indicator3")
+    private Double indicator3;
+
+    @Column(name = "indicator4")
+    private Double indicator4;
 
 }

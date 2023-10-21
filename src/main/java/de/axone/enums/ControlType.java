@@ -1,0 +1,14 @@
+package de.axone.enums;
+
+public enum ControlType {
+    ADMINISTRATIVE_EXAM,
+    SEALINGS,
+    INSTALLATION_TAGS,
+    CLOCK,
+    DISTANCE,
+    SPEED_TESTS,
+    ACTIVITY_TEST,
+    DRIVE_WHEEL_CIRCUMFERENCE,
+    VEHICLE_W_COEFFICIENT,
+    TACHOGRAPH_CONSTANT_K,
+}
