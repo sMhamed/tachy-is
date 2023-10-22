@@ -1,5 +1,8 @@
 
 package de.axone.repository;
 
-public interface SimulationRepository {
+import de.axone.model.Simulation;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SimulationRepository extends JpaRepository<Simulation, Long> {
 }

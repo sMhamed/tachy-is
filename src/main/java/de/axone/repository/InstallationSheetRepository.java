@@ -1,4 +1,7 @@
 package de.axone.repository;
 
-public interface InstallationSheetRepository {
+import de.axone.model.InstallationSheet;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface InstallationSheetRepository extends JpaRepository<InstallationSheet, Long> {
 }

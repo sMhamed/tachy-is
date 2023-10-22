@@ -35,8 +35,6 @@ public class CustomerService {
 
     public Customer getCustomerById(Long id) {
         Optional<Customer> customer = customerRepository.findById(id);
-        if (!customer.isEmpty())
-            return customer.get();
-        return null;
+        return customer.orElse(null);
     }
 }

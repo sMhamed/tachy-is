@@ -1,5 +1,8 @@
 
 package de.axone.repository;
 
-public interface CentralRepository {
+import de.axone.model.Central;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CentralRepository extends JpaRepository<Central, Long> {
 }

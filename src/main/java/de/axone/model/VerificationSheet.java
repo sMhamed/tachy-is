@@ -69,8 +69,8 @@ public class VerificationSheet {
     private List<DiskControl> diskControls;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "measure_id")
-    private Measure measure;
+    @JoinColumn(name = "verification_measure_id")
+    private VerificationMeasure verificationMeasure;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "finalControl_id")
@@ -82,5 +82,5 @@ public class VerificationSheet {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "verification_sheet_id")
-    private List<Tire> tires;
+    private List<VerificationTire> verificationTires;
 }

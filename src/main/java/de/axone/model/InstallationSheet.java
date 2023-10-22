@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
-import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -63,8 +62,8 @@ public class InstallationSheet {
     private Simulation simulation;
 
     @OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinColumn(name = "measure_id")
-    private Measure measure;
+    @JoinColumn(name = "installation_measure_id")
+    private InstallationMeasure installationMeasure;
 
     @OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name = "vehicle_id")
@@ -72,7 +71,7 @@ public class InstallationSheet {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "installation_sheet_id")
-    private List<Tire> tires;
+    private List<InstallationTire> installationTires;
 
 
 }

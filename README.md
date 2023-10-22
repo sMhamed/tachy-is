@@ -24,3 +24,7 @@ $ ./mvnw spring-boot:run
 ```
 
 
+## DB Schema 
+
+![mydb.png](..%2F..%2Fmydb.png)
+

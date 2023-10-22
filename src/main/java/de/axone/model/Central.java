@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Central")
 @Data
@@ -26,4 +28,8 @@ public class Central {
 
     @Column(name = "identifier")
     private String identifier;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "central_id")
+    private List<User> users;
 }

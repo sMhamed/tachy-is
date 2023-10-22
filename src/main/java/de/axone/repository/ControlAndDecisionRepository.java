@@ -1,4 +1,7 @@
 package de.axone.repository;
 
-public interface ControlAndDecisionRepository {
+import de.axone.model.ControlAndDecision;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ControlAndDecisionRepository extends JpaRepository<ControlAndDecision, Long> {
 }
