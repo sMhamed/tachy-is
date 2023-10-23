@@ -1,25 +1,19 @@
 package de.axone.security;
 
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
+import com.auth0.jwt.interfaces.DecodedJWT;
 
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenProvider {
-
-    private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
-
-    private static final Set<String> BLACK_SET = new HashSet<>();
 
     @Value("${app.jwtSecret}")
     private String jwtSecret;
@@ -34,72 +28,36 @@ public class JwtTokenProvider {
 
         Date expirationDate = new Date(now.getTime() + jwtExpirationInMs);
 
-        return Jwts.builder()
-                .setSubject(Long.toString(userPrincipal.getId()))
-                .claim("tachy_username",userPrincipal.getUsername())
-                .claim("tachy_email",userPrincipal.getEmail())
-                .setIssuedAt(new Date())
-                .setExpiration(expirationDate)
-                .signWith(getSigningKey(),SignatureAlgorithm.HS512)
-                .compact();
+        return JWT.create()
+                .withSubject(Long.toString(userPrincipal.getId()))
+                .withClaim("tachy_username", userPrincipal.getUsername())
+                .withClaim("tachy_email", userPrincipal.getEmail())
+                .withClaim("tachy_roles", userPrincipal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")))
+                .withIssuedAt(new Date())
+                .withExpiresAt(expirationDate)
+                .sign(Algorithm.HMAC512(jwtSecret));
+    }
+
+    public DecodedJWT decode(String token) {
+        return JWT.require(Algorithm.HMAC512(jwtSecret))
+                .build()
+                .verify(token);
     }
 
     public Long getUserIdFromJWT(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token.replace("Bearer ",""))
-                .getBody();
-
-        return Long.parseLong(claims.getSubject());
+        return Long.parseLong(decode(token).getSubject());
     }
 
     public String getUsernameFromJWT(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token.replace("Bearer ",""))
-                .getBody();
-
-        return (String) claims.get("tachy_username");
+        return decode(token).getClaim("tachy_username").toString();
     }
 
     public String getEmailFromJWT(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token.replace("Bearer ",""))
-                .getBody();
-
-        return (String) claims.get("tachy_email");
+        return decode(token).getClaim("tachy_email").toString();
     }
 
-    public boolean validateToken(String authToken) {
-        try {
-            Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(authToken).getBody();
-            return true;
-        } catch (SignatureException ex) {
-            logger.error("Invalid JWT signature");
-        } catch (MalformedJwtException ex) {
-            logger.error("Invalid JWT token");
-        } catch (ExpiredJwtException ex) {
-            logger.error("Expired JWT token");
-        } catch (UnsupportedJwtException ex) {
-            logger.error("Unsupported JWT token");
-        } catch (IllegalArgumentException ex) {
-            logger.error("JWT claims string is empty.");
-        }
-        return false;
+    public String getRolesFromJWT(String token) {
+        return decode(token).getClaim("tachy_roles").toString();
     }
 
-    public void putBlackSet(String jwtHash) {
-        System.out.println(" putBlackSet BlackSet.size() : "+BLACK_SET.size());
-        BLACK_SET.add(jwtHash);
-    }
-
-
-    private Key getSigningKey() {
-        byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
 }

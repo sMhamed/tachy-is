@@ -1,6 +1,7 @@
 package de.axone.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import de.axone.model.Role;
 import de.axone.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -52,10 +53,9 @@ public class UserPrincipal implements UserDetails {
         );
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
