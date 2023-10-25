@@ -23,16 +23,19 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Customer>> getAllCustomers() {
         return new ResponseEntity<>(customerService.getAllCustomers(), HttpStatus.OK);
     }
 
     @GetMapping(value = "search")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_OPERATOR')")
     public ResponseEntity<List<Customer>> searchCustomers(@RequestParam("query") String query) {
         return new ResponseEntity<>(customerService.searchCustomers(query), HttpStatus.OK);
     }
 
     @GetMapping(value = "{id}/vehicle")
+    @PreAuthorize("hasAnyRole('ROLE_INSTALLER','ROLE_VERIFIER','ROLE_TECHNICAL_MANAGER')")
     public ResponseEntity<Vehicle> getCustomerVehicle(@PathVariable("id") Long id) {
         Customer customer = customerService.getCustomerById(id);
         if (customer == null)
@@ -42,6 +45,7 @@ public class CustomerController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_OPERATOR')")
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
         return new ResponseEntity<>(customerService.createCustomer(customer), HttpStatus.CREATED);
     }

@@ -19,16 +19,19 @@ public class VehicleController {
     private CustomerService customerService;
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Customer>> getAllCustomers() {
         return new ResponseEntity<>(customerService.getAllCustomers(), HttpStatus.OK);
     }
 
     @GetMapping(value = "search")
+    @PreAuthorize("hasRole('ROLE_INSTALLER')")
     public ResponseEntity<List<Customer>> searchCustomers(@RequestParam("query") String query) {
         return new ResponseEntity<>(customerService.searchCustomers(query), HttpStatus.OK);
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_OPERATOR')")
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
         return new ResponseEntity<>(customerService.createCustomer(customer), HttpStatus.CREATED);
     }

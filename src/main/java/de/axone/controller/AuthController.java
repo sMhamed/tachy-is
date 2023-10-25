@@ -1,7 +1,6 @@
 package de.axone.controller;
 
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
+
 import de.axone.enums.RoleType;
 import de.axone.model.Role;
 import de.axone.model.User;
@@ -12,6 +11,7 @@ import de.axone.payload.SignUpRequest;
 import de.axone.security.JwtTokenProvider;
 import de.axone.service.RoleService;
 import de.axone.service.UserService;
+
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +29,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.Collections;
-import java.util.List;
 
 
 @RestController
@@ -60,11 +58,13 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        // migrate to service
         String jwt = jwtTokenProvider.generateToken(authentication);
         Long userId = jwtTokenProvider.getUserIdFromJWT(jwt);
         String usernameClaim = jwtTokenProvider.getUsernameFromJWT(jwt);
         String emailClaim = jwtTokenProvider.getEmailFromJWT(jwt);
         String rolesClaim = jwtTokenProvider.getRolesFromJWT(jwt);
+        // return user object
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, userId, emailClaim, usernameClaim, rolesClaim));
     }
 
@@ -81,6 +81,8 @@ public class AuthController {
             return new ResponseEntity<>(new ApiResponse(false, "This username already exist!"), HttpStatus.BAD_REQUEST);
         }
 
+
+        // service migration
         User user = new User(
                 signUpRequest.getFirstName(),
                 signUpRequest.getLastName(),
@@ -110,7 +112,8 @@ public class AuthController {
 //    public ResponseEntity<?> logoutUser(HttpServletRequest request) {
 //        String jwt = HeaderUtils.parseJwt(request);
 //        DecodedJWT decodedJwt = jwtTokenProvider.decode(jwt);
-//        final Claim claim = decodedJwt.getClaim("")
+//        Map<String, Claim> claims = decodedJwt.getClaims();
+//        claims.clear();
 //
 //
 ////        jwtTokenProvider.putBlackSet(jwt);
