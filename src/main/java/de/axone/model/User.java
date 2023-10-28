@@ -28,9 +28,6 @@ public class User {
     private String firstName;
 
     @Column
-    private String cin;
-
-    @Column
     private LocalDate dateOfBirth;
 
     @Column
@@ -43,7 +40,7 @@ public class User {
     private String password;
 
 
-    public User(String firstName,String lastName, String username, String email, String password) {
+    public User(String firstName, String lastName, String username, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -57,4 +54,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonIgnore
     private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<ServiceOrder> serviceOrders;
 }

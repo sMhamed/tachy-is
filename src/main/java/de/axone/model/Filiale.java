@@ -26,10 +26,6 @@ public class Filiale {
     @Column(name = "identifier")
     private String identifier;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "central_id")
-    private Central central;
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "filiale_id")
     private List<User> users;

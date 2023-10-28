@@ -1,5 +1,6 @@
 package de.axone.model;
 
+import de.axone.enums.SheetType;
 import de.axone.enums.TireType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,18 +9,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "verification_tire")
+@Table(name = "tire")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-// duplicate tire add verification tire as Master
-// installation tire must be for auditing
-public class VerificationTire {
+public class Tire {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name")
+    @Enumerated(EnumType.STRING)
+    private SheetType name;
 
     @Column(name = "tire_type")
     @Enumerated(EnumType.STRING)

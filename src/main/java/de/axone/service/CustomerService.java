@@ -28,9 +28,9 @@ public class CustomerService {
         return customerRepository.saveAndFlush(customer);
     }
 
-    public Vehicle getCustomerVehicle(Long id) {
+    public List<Vehicle> getCustomerVehicles(Long id) {
         Customer customer = this.getCustomerById(id);
-        return customer.getVehicle();
+        return customer.getVehicles();
     }
 
     public Customer getCustomerById(Long id) {

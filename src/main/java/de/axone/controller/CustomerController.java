@@ -36,12 +36,12 @@ public class CustomerController {
 
     @GetMapping(value = "{id}/vehicle")
     @PreAuthorize("hasAnyRole('ROLE_INSTALLER','ROLE_VERIFIER','ROLE_TECHNICAL_MANAGER')")
-    public ResponseEntity<Vehicle> getCustomerVehicle(@PathVariable("id") Long id) {
+    public ResponseEntity<List<Vehicle>> getCustomerVehicles(@PathVariable("id") Long id) {
         Customer customer = customerService.getCustomerById(id);
         if (customer == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        return new ResponseEntity<>(customerService.getCustomerVehicle(id), HttpStatus.OK);
+        return new ResponseEntity<>(customerService.getCustomerVehicles(id), HttpStatus.OK);
     }
 
     @PostMapping

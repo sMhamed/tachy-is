@@ -4,6 +4,8 @@ import de.axone.enums.ReachabilityType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "customer")
 @Getter
@@ -23,6 +25,9 @@ public class Customer {
     @Column(name = "firstName")
     private String firstName;
 
+    @Column(name = "cin")
+    private String cin;
+
     @Column(name = "email")
     private String email;
 
@@ -39,8 +44,12 @@ public class Customer {
     @Enumerated(EnumType.STRING)
     private ReachabilityType reachBy;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "vehicle_id")
-    private Vehicle vehicle;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id")
+    private List<Vehicle> vehicles;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id")
+    private List<ServiceOrder> serviceOrders;
 
 }

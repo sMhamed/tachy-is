@@ -1,5 +1,6 @@
 package de.axone.model;
 
+import de.axone.enums.SheetType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,17 +8,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "verification_measure")
+@Table(name = "measure")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-// same as for tire
-public class VerificationMeasure {
+public class Measure {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name")
+    @Enumerated(EnumType.STRING)
+    private SheetType name;
 
     @Column(name = "w1")
     private Integer w1;
@@ -45,4 +49,5 @@ public class VerificationMeasure {
 
     @Column(name = "kConstant")
     private Integer kConstant;
+
 }

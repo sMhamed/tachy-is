@@ -1,8 +1,8 @@
 package de.axone.model;
 
-import de.axone.enums.ControlType;
 import de.axone.enums.DiskControlType;
 import de.axone.enums.MeasurementType;
+import de.axone.enums.ToleranceType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +27,7 @@ public class DiskControl {
 
     @Column(name = "controlType")
     @Enumerated(EnumType.STRING)
-    private ControlType controlType;
+    private ToleranceType toleranceType;
 
     @Column(name = "measurementType")
     @Enumerated(EnumType.STRING)

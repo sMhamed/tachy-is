@@ -3,9 +3,6 @@ package de.axone.payload;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -13,6 +10,8 @@ import java.util.List;
 public class JwtAuthenticationResponse {
 
     private String accessToken;
+
+    private String token;
 
     private String tokenType = "Bearer";
 
@@ -24,8 +23,9 @@ public class JwtAuthenticationResponse {
 
     private String roles;
 
-    public JwtAuthenticationResponse(String accessToken, Long userId, String emailClaim, String usernameClaim, String roles) {
+    public JwtAuthenticationResponse(String accessToken, String token, Long userId, String emailClaim, String usernameClaim, String roles) {
         this.accessToken = accessToken;
+        this.token = token;
         this.userId = userId;
         this.emailClaim = emailClaim;
         this.usernameClaim = usernameClaim;

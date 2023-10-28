@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "vehicle")
@@ -59,17 +60,7 @@ public class Vehicle {
     @Column(name = "chronoContructionYear")
     private Integer chronoConstructionYear;
 
-//    @Column(columnDefinition = "SMALLINT")
-//    private Boolean confirmation1;
-//
-//    @Column(columnDefinition = "SMALLINT")
-//    private Boolean confirmation2;
-//
-//    @Column(columnDefinition = "SMALLINT")
-//    private Boolean confirmation3;
-//
-//
-//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "tachy_order_id")
-//    private TachyOrder tachyOrder;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "vehicle_id")
+//    private List<ServiceOrder> serviceOrders;
 }
