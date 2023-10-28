@@ -1,6 +1,7 @@
 package de.axone.service;
 
 import de.axone.model.RefreshToken;
+import de.axone.model.User;
 import de.axone.repository.RefreshTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,12 @@ public class RefreshTokenService {
     private UserService userService;
 
     public RefreshToken createRefreshToken(String username) {
+        // if the user is still connected delete the old refreshToken
+        refreshTokenRepository
+                .findRefreshTokenByUserId(userService.getUserByUsernameOrEmail(username))
+                .ifPresent(refreshToken -> refreshTokenRepository.delete(refreshToken));
+
+        // create new refreshToken
         RefreshToken refreshToken = RefreshToken.builder()
                 .userId(userService.getUserByUsernameOrEmail(username))
                 .token(UUID.randomUUID().toString())
